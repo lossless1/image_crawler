@@ -1,0 +1,19 @@
+extends layout
+
+block content
+    a(href="/table") Back
+    div
+        div
+            p Id: #{page._id}
+        div
+            p Address:
+                a(href=page.name)=page.name
+        div
+            p Count of tags: #{page.numberTags}
+        div
+            if(page.isDeep)
+                p Is deep: #{page.isDeep}
+        div
+            if(page.threads)
+                p Threads: #{page.threads}
+

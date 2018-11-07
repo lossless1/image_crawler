@@ -1,0 +1,55 @@
+extends layout
+
+block content
+    h1 Crawl page
+    div(class="box")
+        p Create new query to crawl img tags
+        form(id="crawlForm" action='/crawl', method='get')
+            div(class="input-block")
+                label(for="name") Address:
+                br
+                input(id="name", name="name", placeholder="Input page to crawl...")
+                span(class="error") *
+            div(class="input-block")
+                label(for="threads") Threads:
+                br
+                input(type="number" id="threads", name="threads", placeholder="Input count of threads...")
+                span(class="info") Default: 10
+            div(class="input-block")
+                label(for="maxPages") Max pages:
+                br
+                input(type="number" id="maxPages", name="maxPages", placeholder="Input count max pages...")
+                span(class="info") Default: 5
+            div(class="input-block")
+                label(for="isDeep") Deep:
+                br
+                input(type="checkbox" id="isDeep", name="isDeep" checked)
+                span(class="info") Default: true
+
+            button(type="submit" id="crawlButton") Crawl
+            br
+            if error && error.type === "inputCrawler"
+                span(class="error") #{error.message}
+
+
+    h4 All crawled pages of <img> tag
+        div(class="box")
+            form(action='/pages', method='get')
+                input(name="method" value="delete" hidden=true)
+                input(name="id" value="*" hidden=true)
+                button(type="submit") Delete all
+            if pages
+                table
+                    tr
+                        th Address
+                        th Count of tags
+                        th Duration
+                        th Created
+                    each page in pages
+                        tr(onclick="document.location = '/table/"+page._id+"'")
+                            td= page.name
+                            td= page.numberTags
+                            td= page.duration
+                            td= page.created
+
+
